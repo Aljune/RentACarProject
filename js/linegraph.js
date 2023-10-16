@@ -1,0 +1,55 @@
+$(document).ready(function(){
+	$.ajax({
+		url: "http://localhost/test_hospital/model/bi_attendance_chart_data.php",
+		type: "GET",
+		success: function(data){
+		 console.log(data);
+		 
+		 var id = [];
+		 var q1 = [];
+		 var q2 = [];
+		 var q3 = [];
+		 var q4 = [];
+		 for(var i in data){
+			 id.push("id"+data[i].id);
+			 q1.push(data[i].Q1);
+			 q2.push(data[i].Q2);
+			 q3.push(data[i].Q3);
+			 q4.push(data[i].Q4);			 
+		 }
+		 var chartdata ={
+			 labels: id,
+			 datasets:[
+   			  {
+				label: "Quarter 1",
+				fill: false,
+				lineTension: 0.1,
+				backgroundColor: "rgba(59,89,152,0.75)",
+				borderColor: "rgba(59,89,152,1)",
+				pointHoverBackgroundColor: "rgba(59,89,152,1)",
+				pointHoverBorderColor: "rgba(59,89,152,1)",
+				data:q1
+			  },
+   			  {
+				label: "Quarter 2",
+				fill: false,
+				lineTension: 0.1,
+				backgroundColor: "rgba(29,202,252,0.75)",
+				borderColor: "rgba(29,202,252,1)",
+				pointHoverBackgroundColor: "rgba(29,202,252,1)",
+				pointHoverBorderColor: "rgba(29,202,252,1)",
+				data:q2
+			  }			  
+			 ]
+		 };
+			var ctx = document.getElementById("lineChart").getContext("2d");
+			var LineGraph = new Chart(ctx,{
+				type: 'line',
+				data: chartdata
+			});
+		},
+		error: function(data){
+
+		}
+	});
+});
